@@ -1,0 +1,83 @@
+'WebExcess.OpenStreetMap:Map.Address':
+  abstract: true
+  properties:
+    address:
+      type: string
+      ui:
+        label: 'Address'
+        reloadPageIfChanged: true
+        inspector:
+          group: 'map'
+
+'WebExcess.OpenStreetMap:Map.LatLon':
+  abstract: true
+  properties:
+    lat:
+      type: string
+      ui:
+        label: 'Latitude'
+        reloadPageIfChanged: true
+        inspector:
+          group: 'hidden'
+          editorOptions:
+            disabled: true
+    lon:
+      type: string
+      ui:
+        label: 'Longitude'
+        reloadPageIfChanged: true
+        inspector:
+          group: 'hidden'
+          editorOptions:
+            disabled: true
+
+'WebExcess.OpenStreetMap:Map.LatLon.Visible':
+  abstract: true
+  properties:
+    lat:
+      ui:
+        inspector:
+          group: 'map'
+    lon:
+      ui:
+        inspector:
+          group: 'map'
+
+'WebExcess.OpenStreetMap:Map.LatLon.Editable':
+  abstract: true
+  superTypes:
+    'WebExcess.OpenStreetMap:Map.Address': false
+  properties:
+    lat:
+      ui:
+        inspector:
+          group: 'map'
+          editorOptions:
+            disabled: false
+    lon:
+      ui:
+        inspector:
+          group: 'map'
+          editorOptions:
+            disabled: false
+
+'WebExcess.OpenStreetMap:Map.Style':
+  abstract: true
+  properties:
+    style:
+      type: string
+      defaultValue: 'original'
+      ui:
+        label: 'Style'
+        reloadPageIfChanged: true
+        inspector:
+          group: 'map'
+          editor: 'Neos.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            values:
+              original:
+                label: 'Original'
+              grayscale:
+                label: 'Grayscale'
+              dark:
+                label: 'Dark'

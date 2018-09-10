@@ -1,0 +1,25 @@
+Neos:
+  Neos:
+#    userInterface:
+#      translation:
+#        autoInclude:
+#          WebExcess.OpenStreetMap:
+#            - 'NodeTypes/*'
+    fusion:
+      autoInclude:
+        WebExcess.OpenStreetMap: true
+  Fusion:
+    defaultContext:
+      'Geocode': 'WebExcess\OpenStreetMap\Eel\GeocodingHelper'
+
+WebExcess:
+  OpenStreetMap:
+    tilesUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    minZoom: 6
+    maxZoom: 20
+    style: ~ # ~, grayscale or dark
+    ratio: '3:2'
+    address: ~ # Talisker Distillery, Carbost, Scotland
+    lat: ~ # 57.302387
+    lon: ~ # -6.356159
+    mapOptions: []

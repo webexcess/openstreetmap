@@ -1,0 +1,22 @@
+{
+    "name": "webexcess.openstreetmap",
+    "version": "1.0.0",
+    "description": "Easy and flexible OpenStreetMap Implementation as NodeType or Fusion Component",
+    "private": true,
+    "dependencies": {},
+    "devDependencies": {
+        "browserify": "16.2.2",
+        "cssnano-cli": "latest",
+        "leaflet": "^1.3.4",
+        "node-sass": "4.9.2",
+        "uglify-js": "^3.4.4",
+        "uglifyify": "5.0.1"
+    },
+    "scripts": {
+        "js": "cat node_modules/leaflet/dist/leaflet.js > Resources/Public/Assets/Main.js; ./node_modules/browserify/bin/cmd.js Resources/Private/Assets/Main.js | ./node_modules/uglify-js/bin/uglifyjs --mangle --compress >> Resources/Public/Assets/Main.js",
+        "css": "./node_modules/node-sass/bin/node-sass --include-path node_modules Resources/Private/Assets/Main.scss > Resources/Public/Assets/Main.css && ./node_modules/cssnano-cli/cmd.js Resources/Public/Assets/Main.css Resources/Public/Assets/Main.css --autoprefixer.add true --autoprefixer.browsers: '> 1%' --no-zindex --discardComments.removeAll true && cat node_modules/leaflet/dist/leaflet.css | cat - Resources/Public/Assets/Main.css > Resources/Public/Assets/Main.css.tmp && mv Resources/Public/Assets/Main.css.tmp Resources/Public/Assets/Main.css",
+        "images": "cp -r node_modules/leaflet/dist/images Resources/Public/Assets/; cp -r Resources/Private/Assets/*.svg Resources/Public/Assets/",
+        "setup": "mkdir -p Resources/Public/Assets; touch Resources/Public/Assets/Main.css",
+        "build": "npm run setup && npm run js && npm run css && npm run images"
+    }
+}

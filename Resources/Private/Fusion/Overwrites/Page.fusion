@@ -1,0 +1,19 @@
+prototype(Neos.Neos:Page) {
+    head.stylesheets.openStreetMap = Neos.Fusion:Tag {
+        tagName = 'link'
+        attributes {
+            rel = 'stylesheet'
+            href = Neos.Fusion:ResourceUri {
+                path = 'resource://WebExcess.OpenStreetMap/Public/Assets/Main.css'
+            }
+        }
+    }
+    body.javascripts.openStreetMap = Neos.Fusion:Tag {
+        tagName = 'script'
+        attributes {
+            src = Neos.Fusion:ResourceUri {
+                path = 'resource://WebExcess.OpenStreetMap/Public/Assets/Main.js'
+            }
+        }
+    }
+}

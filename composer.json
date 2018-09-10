@@ -1,0 +1,28 @@
+{
+    "name": "webexcess/openstreetmap",
+    "type": "neos-plugin",
+    "description": "Easy and flexible OpenStreetMap Implementation as NodeType or Fusion Component",
+    "license": "MIT",
+    "require": {
+        "neos/neos": ">=3.0 <5.0 || dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "WebExcess\\OpenStreetMap\\": "Classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "Stefan Bruggmann",
+            "email": "stefan.bruggmann@webexcess.ch",
+            "homepage": "https://twitter.com/sbruggmann",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "installer-name": "WebExcess.OpenStreetMap",
+        "neos": {
+            "package-key": "WebExcess.OpenStreetMap"
+        }
+    }
+}

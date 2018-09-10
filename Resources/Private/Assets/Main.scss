@@ -1,0 +1,67 @@
+.webexcess-openstreetmap {
+	position: relative;
+	overflow: hidden;
+	height: 0;
+	padding-top: 75%;
+	width: 100%;
+	margin-bottom: 1.5rem;
+	border: 1px solid rgba(0, 0, 0, 0.4);
+
+	&,
+	.webexcess-openstreetmap__map.leaflet-container {
+		background-color: #f1f1f1;
+		background-image: url(/_Resources/Static/Packages/WebExcess.OpenStreetMap/Assets/webexcess-globe.svg);
+		background-position: 50% 50%;
+		background-size: 25% 50%;
+		background-repeat: no-repeat;
+		background-blend-mode: soft-light;
+	}
+
+	.webexcess-openstreetmap__map.leaflet-container {
+		background-blend-mode: overlay;
+	}
+
+	&__map {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+
+		&--grayscale .leaflet-tile-pane {
+			filter: grayscale(1);
+		}
+
+		&--dark .leaflet-tile-pane {
+			filter: grayscale(1) invert(1);
+		}
+
+		.hide-leaflet-pane {
+			.leaflet-marker-pane,
+			.leaflet-shadow-pane {
+				visibility: hidden;
+			}
+		}
+
+		div.leaflet-control-zoom {
+			border-radius: 0;
+			border-width: 1px;
+			border-color: rgba(0, 0, 0, 0.4);
+		}
+
+		a.leaflet-control-zoom-in,
+		a.leaflet-control-zoom-out {
+			font-weight: 100;
+			border-radius: 0;
+			border-bottom-color: rgba(0, 0, 0, 0.4);
+			width: 28px;
+			height: 28px;
+			line-height: 26px;
+			font-style: 20px;
+		}
+
+		a.leaflet-control-zoom-in {
+			border-bottom-color: rgba(0, 0, 0, 0.4);
+		}
+	}
+}

@@ -1,0 +1,64 @@
+prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Component) {
+
+    tilesUrl = null
+    defaultTilesUrl = ${Configuration.setting('WebExcess.OpenStreetMap.tilesUrl')}
+    tilesUrlRenderer = ${this.tilesUrl ? this.tilesUrl : this.defaultTilesUrl}
+
+    minZoom = null
+    defaultMinZoom = ${Configuration.setting('WebExcess.OpenStreetMap.minZoom')}
+    minZoomRenderer = ${this.minZoom ? this.minZoom : this.defaultMinZoom}
+
+    maxZoom = null
+    defaultMaxZoom = ${Configuration.setting('WebExcess.OpenStreetMap.maxZoom')}
+    maxZoomRenderer = ${this.maxZoom ? this.maxZoom : this.defaultMaxZoom}
+
+    style = null
+    defaultStyle = ${Configuration.setting('WebExcess.OpenStreetMap.style')}
+    styleRenderer = ${this.style ? this.style : this.defaultStyle}
+
+    ratio = null
+    defaultRatio = ${Configuration.setting('WebExcess.OpenStreetMap.ratio')}
+    ratioRenderer = ${this.ratio ? this.ratio : this.defaultRatio}
+    ratioPaddingRenderer = ${(String.split(this.ratioRenderer, ':')[1]*1) / (String.split(this.ratioRenderer, ':')[0]*1) * 100}
+
+    mapOptions = Neos.Fusion:RawArray
+    defaultMapOptions = ${Configuration.setting('WebExcess.OpenStreetMap.mapOptions')}
+    mapOptionsRenderer = ${Array.concat(this.defaultMapOptions, this.mapOptions)}
+    mapOptionsRenderer.@process.jsonStringify = ${value ? Json.stringify(value) : null}
+
+    address = null
+    latLonRenderer = ${this.address ? Geocode.latLonFromAddress(this.address) : null}
+
+    lat = null
+    defaultLat = ${Configuration.setting('WebExcess.OpenStreetMap.lat')}
+    latRenderer = ${this.lat ? this.lat : (this.latLonRenderer ? this.latLonRenderer.lat : this.defaultLat)}
+
+    lon = null
+    defaultLon = ${Configuration.setting('WebExcess.OpenStreetMap.lon')}
+    lonRenderer = ${this.lon ? this.lon : (this.latLonRenderer ? this.latLonRenderer.lon : this.defaultLon)}
+
+    renderer = Neos.Fusion:Tag {
+        attributes {
+            class = 'webexcess-openstreetmap'
+            style = ${'padding-top: ' + props.ratioPaddingRenderer + '%;'}
+        }
+        content = Neos.Fusion:Array {
+            map = Neos.Fusion:Tag {
+                attributes {
+                    id = ${'map-' + node.identifier}
+                    class = Neos.Fusion:RawArray {
+                        map = 'webexcess-openstreetmap__map'
+                        hidePaneInitially = 'hide-leaflet-pane'
+                        style = ${props.styleRenderer ? 'webexcess-openstreetmap__map--' + props.styleRenderer : false}
+                    }
+                    data-tiles-url = ${props.tilesUrlRenderer}
+                    data-min-zoom = ${props.minZoomRenderer}
+                    data-max-zoom = ${props.maxZoomRenderer}
+                    data-lat = ${props.latRenderer}
+                    data-lon = ${props.lonRenderer}
+                    data-map-options = ${props.mapOptionsRenderer}
+                }
+            }
+        }
+    }
+}
