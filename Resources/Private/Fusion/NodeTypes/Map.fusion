@@ -3,8 +3,5 @@ prototype(WebExcess.OpenStreetMap:Map) < prototype(Neos.Neos:ContentComponent) {
         lat = ${q(node).property('lat')}
         lon = ${q(node).property('lon')}
         style = ${q(node).property('style')}
-        mapOptions {
-            scrollWheelZoom = true
-        }
     }
 }
