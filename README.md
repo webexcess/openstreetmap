@@ -19,6 +19,18 @@ Supported for Neos 3.x, 4.x and will be maintained for upcoming versions.
 | -------- | --------- | ---- |
 | ![Original Map Style](Documentation/map-style-original.png?raw=true "Original Map Style") | ![Original Map Style](Documentation/map-style-grayscale.png?raw=true "Original Map Style") | ![Original Map Style](Documentation/map-style-dark.png?raw=true "Original Map Style") |
 
+**Default JS & CSS**
+
+By default, this plugin loads a JS and CSS file.
+
+It's best practice to include them in your custom builds and remove the default assets:
+
+    prototype(Neos.Neos:Page) {
+      head.stylesheets.openStreetMap >
+      body.javascripts.openStreetMap >
+    }
+
+
 
 ## Editor Settings
 
