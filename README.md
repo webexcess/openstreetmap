@@ -95,7 +95,7 @@ inline with multiple markers..
 or with an external source..
 
 	map = WebExcess.OpenStreetMap:Map.Component {
-	  json = 'talisker-geo.json'
+	  json = '/talisker-geo.json'
 	}
 
 **EEL Helper**
