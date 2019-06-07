@@ -66,7 +66,9 @@ It's best practice to include them in your custom builds and remove the default 
 **Simple**
 
 	map = WebExcess.OpenStreetMap:Map.Component {
-	  address = ${'Talisker Distillery, Carbost, Scotland'}
+	  address = 'Talisker Distillery, Carbost, Scotland'
+	  tooltip = 'Talisker Distillery'
+	  popup = 'Also have a look at <a href=\\"https:\/\/unsplash.com\/search\/photos\/talisker-bay\\" target=\\"_blank\\">Talisker Bay<\/a>.'
 	}
 
 **Advanced**
@@ -80,6 +82,20 @@ It's best practice to include them in your custom builds and remove the default 
 	      @position = 'after map'
 	      content = 'A Special Information..'
 	  }
+	}
+
+**GeoJSON**
+
+inline with multiple markers..
+
+	map = WebExcess.OpenStreetMap:Map.Component {
+	  json = '[{"type":"Feature","properties":{"tooltip":"Talisker Distillery"},"geometry":{"type":"Point","coordinates":[-6.356159,57.302387]}},{"type":"Feature","properties":{"popup":"Talisker Bay<br \/>&raquo; <a href=\\"https:\/\/unsplash.com\/search\/photos\/talisker-bay\\" target=\\"_blank\\">Photos<\/a>"},"geometry":{"type":"Point","coordinates":[-6.456646,57.283313]}}]'
+	}
+
+or with an external source..
+
+	map = WebExcess.OpenStreetMap:Map.Component {
+	  json = 'talisker-geo.json'
 	}
 
 **EEL Helper**

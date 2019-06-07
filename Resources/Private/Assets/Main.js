@@ -117,15 +117,67 @@ window.initOpenStreetMap = function() {
 
         var lat = mapContainer.getAttribute('data-lat');
         var lng = mapContainer.getAttribute('data-lon');
+        var popup = mapContainer.getAttribute('data-popup');
+        var tooltip = mapContainer.getAttribute('data-tooltip');
         if (lat && lng) {
             maps[mapId].setView(L.latLng(lat, lng), 15);
-            L.marker([lat, lng]).addTo(maps[mapId]);
+            var marker = L.marker([lat, lng]);
+            if (popup) {
+                marker.bindPopup(popup);
+            }
+            if (tooltip) {
+                marker.bindTooltip(tooltip);
+            }
+            marker.addTo(maps[mapId]);
+        }
+
+        var geoJson = mapContainer.getAttribute('data-json');
+        if (geoJson) {
+            try {
+                var geoJsonObject = {};
+                if (geoJson.indexOf('http') === 0 || geoJson.substr(0, 1) === '/') {
+
+                    var request = new XMLHttpRequest();
+                    request.open('GET', geoJson, true);
+                    request.onload = function () {
+                        if (request.status >= 200 && request.status < 400) {
+                            geoJsonObject = JSON.parse(request.responseText.trim());
+                            window.addOpenStreetMapGeoJSON(maps[mapId], geoJsonObject);
+                        }
+                    };
+                    request.send();
+
+                } else {
+                    geoJsonObject = JSON.parse(geoJson);
+                    window.addOpenStreetMapGeoJSON(maps[mapId], geoJsonObject);
+                }
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         setInterval(function () {
             document.getElementById(mapId).classList.remove('hide-leaflet-pane');
         }, 500);
     }
+};
+
+window.addOpenStreetMapGeoJSON = function(mapElement, geoJsonObject) {
+    var geojsonLayer = L.geoJSON(geoJsonObject, {
+        pointToLayer: function(geoJsonPoint, latlng) {
+            var marker = L.marker(latlng);
+            if (geoJsonPoint.properties.popup) {
+                marker.bindPopup(geoJsonPoint.properties.popup);
+            }
+            if (geoJsonPoint.properties.tooltip) {
+                marker.bindTooltip(geoJsonPoint.properties.tooltip);
+            }
+            return marker;
+        }
+    }).addTo(mapElement);
+    mapElement.fitBounds(geojsonLayer.getBounds(), {
+        padding: [100, 100]
+    });
 };
 
 window.addEventListener('load', initOpenStreetMap);
