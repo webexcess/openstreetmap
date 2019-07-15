@@ -47,7 +47,7 @@ It's best practice to include them in your custom builds and remove the default 
 	  OpenStreetMap:
 	    tilesUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 	    minZoom: 6
-	    maxZoom: 20
+	    maxZoom: 18
 	    style: ~ # ~, grayscale or dark
 	    ratio: '3:2'
 	    address: ~ # Talisker Distillery, Carbost, Scotland
