@@ -53,6 +53,8 @@ It's best practice to include them in your custom builds and remove the default 
 	    address: ~ # Talisker Distillery, Carbost, Scotland
 	    lat: ~ # 57.302387
 	    lon: ~ # -6.356159
+        paddingTopLeft: [100, 100]
+        paddingBottomRight: [100, 100]
 	    mapOptions: []
 
 

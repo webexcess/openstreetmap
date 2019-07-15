@@ -94,6 +94,20 @@ function OpenStreetMap() {
     }
 
     this.addGeoJsonToMap = function(mapElement, geoJsonObject) {
+        var paddingTopLeft = mapElement._container.getAttribute('data-padding-topleft');
+        if (paddingTopLeft) {
+            paddingTopLeft = JSON.parse(paddingTopLeft);
+        } else {
+            paddingTopLeft = 100;
+        }
+
+        var paddingBottomRight = mapElement._container.getAttribute('data-padding-bottomright');
+        if (paddingTopLeft) {
+            paddingBottomRight = JSON.parse(paddingBottomRight);
+        } else {
+            paddingBottomRight = 100;
+        }
+
         var geojsonLayer = L.geoJSON(geoJsonObject, {
             pointToLayer: function(geoJsonPoint, latlng) {
                 var marker = L.marker(latlng);
@@ -108,7 +122,8 @@ function OpenStreetMap() {
             }
         }).addTo(mapElement);
         mapElement.fitBounds(geojsonLayer.getBounds(), {
-            padding: [100, 100]
+            paddingTopLeft: paddingTopLeft,
+            paddingBottomRight: paddingBottomRight
         });
 
         var addedOpenStreetMapMarkersEvent = new CustomEvent('addedOpenStreetMapMarkers', {
