@@ -1,6 +1,12 @@
-window.initOpenStreetMap = function() {
+function OpenStreetMap() {
+    
+    var $this = this;
+
+    var mapIds = [];
 
     var maps = [];
+
+    var markers = [];
 
     var mapOptions = {
         imagePath: '_Resources/Static/Packages/WebExcess.OpenStreetMap/Assets/',
@@ -87,14 +93,71 @@ window.initOpenStreetMap = function() {
         }());
     }
 
-    try {
-        Array.from(document.querySelectorAll('.webexcess-openstreetmap__map')).forEach(function (mapContainer) {
-            var mapId = mapContainer.getAttribute('id');
-            initMap(mapContainer, mapId);
+    this.addGeoJsonToMap = function(mapElement, geoJsonObject) {
+        var paddingTopLeft = mapElement._container.getAttribute('data-padding-topleft');
+        if (paddingTopLeft) {
+            paddingTopLeft = JSON.parse(paddingTopLeft);
+        } else {
+            paddingTopLeft = 100;
+        }
+
+        var paddingBottomRight = mapElement._container.getAttribute('data-padding-bottomright');
+        if (paddingTopLeft) {
+            paddingBottomRight = JSON.parse(paddingBottomRight);
+        } else {
+            paddingBottomRight = 100;
+        }
+
+        var geojsonLayer = L.geoJSON(geoJsonObject, {
+            pointToLayer: function(geoJsonPoint, latlng) {
+                var marker = L.marker(latlng);
+                if (geoJsonPoint.properties.popup) {
+                    marker.bindPopup(geoJsonPoint.properties.popup);
+                }
+                if (geoJsonPoint.properties.tooltip) {
+                    marker.bindTooltip(geoJsonPoint.properties.tooltip);
+                }
+                markers[mapElement._container.attributes.id.value].push(marker);
+                return marker;
+            }
+        }).addTo(mapElement);
+        mapElement.fitBounds(geojsonLayer.getBounds(), {
+            paddingTopLeft: paddingTopLeft,
+            paddingBottomRight: paddingBottomRight
         });
-    } catch (e) {
-        console.log(e);
-    }
+
+        var addedOpenStreetMapMarkersEvent = new CustomEvent('addedOpenStreetMapMarkers', {
+            detail: {
+                map: mapElement,
+                mapId: mapElement._container.attributes.id.value,
+                geoJson: geoJsonObject
+            }
+        });
+        document.dispatchEvent(addedOpenStreetMapMarkersEvent);
+    };
+
+    this.getMapIds = function () {
+        return mapIds;
+    };
+
+    this.getMap = function (mapId) {
+        return maps[mapId];
+    };
+
+    this.getMarkers = function (mapId) {
+        return markers[mapId];
+    };
+
+    this.init = function () {
+        try {
+            Array.from(document.querySelectorAll('.webexcess-openstreetmap__map')).forEach(function (mapContainer) {
+                var mapId = mapContainer.getAttribute('id');
+                initMap(mapContainer, mapId);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     function initMap(mapContainer, mapId) {
         var mapSpecificOptions = mapContainer.getAttribute('data-map-options');
@@ -105,12 +168,16 @@ window.initOpenStreetMap = function() {
         }
         mapSpecificOptions = Object.assign({}, mapOptions, mapSpecificOptions);
 
+        mapIds.push(mapId);
         maps[mapId] = new L.Map(mapId, mapSpecificOptions);
+        markers[mapId] = [];
 
+        var minZoom = mapContainer.getAttribute('data-min-zoom');
+        var maxZoom = mapContainer.getAttribute('data-max-zoom');
         var tilesUrl = mapContainer.getAttribute('data-tiles-url');
         var tiles = new L.TileLayer(tilesUrl, {
-            minZoom: mapContainer.getAttribute('data-min-zoom'),
-            maxZoom: mapContainer.getAttribute('data-max-zoom'),
+            minZoom: minZoom,
+            maxZoom: maxZoom,
             attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
         });
         maps[mapId].addLayer(tiles);
@@ -120,15 +187,17 @@ window.initOpenStreetMap = function() {
         var popup = mapContainer.getAttribute('data-popup');
         var tooltip = mapContainer.getAttribute('data-tooltip');
         if (lat && lng) {
-            maps[mapId].setView(L.latLng(lat, lng), 15);
-            var marker = L.marker([lat, lng]);
-            if (popup) {
-                marker.bindPopup(popup);
-            }
-            if (tooltip) {
-                marker.bindTooltip(tooltip);
-            }
-            marker.addTo(maps[mapId]);
+            $this.addGeoJsonToMap(maps[mapId], [{
+                'type': 'Feature',
+                'properties': {
+                    'tooltip': tooltip,
+                    'popup': popup
+                },
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [lng, lat]
+                }
+            }]);
         }
 
         var geoJson = mapContainer.getAttribute('data-json');
@@ -142,19 +211,27 @@ window.initOpenStreetMap = function() {
                     request.onload = function () {
                         if (request.status >= 200 && request.status < 400) {
                             geoJsonObject = JSON.parse(request.responseText.trim());
-                            window.addOpenStreetMapGeoJSON(maps[mapId], geoJsonObject);
+                            $this.addGeoJsonToMap(maps[mapId], geoJsonObject);
                         }
                     };
                     request.send();
 
                 } else {
                     geoJsonObject = JSON.parse(geoJson);
-                    window.addOpenStreetMapGeoJSON(maps[mapId], geoJsonObject);
+                    $this.addGeoJsonToMap(maps[mapId], geoJsonObject);
                 }
             } catch (e) {
                 console.log(e);
             }
         }
+
+        var initializedOpenStreetMapEvent = new CustomEvent('initializedOpenStreetMap', {
+            detail: {
+                map: maps[mapId],
+                mapId: mapId,
+            }
+        });
+        document.dispatchEvent(initializedOpenStreetMapEvent);
 
         setInterval(function () {
             document.getElementById(mapId).classList.remove('hide-leaflet-pane');
@@ -162,22 +239,6 @@ window.initOpenStreetMap = function() {
     }
 };
 
-window.addOpenStreetMapGeoJSON = function(mapElement, geoJsonObject) {
-    var geojsonLayer = L.geoJSON(geoJsonObject, {
-        pointToLayer: function(geoJsonPoint, latlng) {
-            var marker = L.marker(latlng);
-            if (geoJsonPoint.properties.popup) {
-                marker.bindPopup(geoJsonPoint.properties.popup);
-            }
-            if (geoJsonPoint.properties.tooltip) {
-                marker.bindTooltip(geoJsonPoint.properties.tooltip);
-            }
-            return marker;
-        }
-    }).addTo(mapElement);
-    mapElement.fitBounds(geojsonLayer.getBounds(), {
-        padding: [100, 100]
-    });
-};
+window.openStreetMap = new OpenStreetMap();
 
-window.addEventListener('load', initOpenStreetMap);
+window.addEventListener('load', window.openStreetMap.init);

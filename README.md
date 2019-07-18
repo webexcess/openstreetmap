@@ -47,12 +47,14 @@ It's best practice to include them in your custom builds and remove the default 
 	  OpenStreetMap:
 	    tilesUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 	    minZoom: 6
-	    maxZoom: 20
+	    maxZoom: 18
 	    style: ~ # ~, grayscale or dark
 	    ratio: '3:2'
 	    address: ~ # Talisker Distillery, Carbost, Scotland
 	    lat: ~ # 57.302387
 	    lon: ~ # -6.356159
+        paddingTopLeft: [100, 100]
+        paddingBottomRight: [100, 100]
 	    mapOptions: []
 
 
@@ -101,6 +103,32 @@ or with an external source..
 **EEL Helper**
 
 	Geocode.latLonFromAddress('Talisker Distillery, Carbost, Scotland')
+
+
+## Interacting with JavaScript
+
+**Methods**
+
+    mapIds = window.openStreetMap.getMapIds();
+    > Array [ "map-d8aaafcf-b2fa-4240-8a28-ed48b6e6143c", "map-b9ffb901-e91e-4261-a127-ec3246bc6350", .. ]
+
+    map = window.openStreetMap.getMap('map-d8aaafcf-b2fa-4240-8a28-ed48b6e6143c');
+    > { MapObject }
+
+    markers = window.openStreetMap.getMarkers('map-d8aaafcf-b2fa-4240-8a28-ed48b6e6143c');
+    > Array [ { MarkerObject }, { MarkerObject }, ... ]
+
+**Events**
+
+    document.addEventListener('initializedOpenStreetMap', e => {
+        console.log(e);
+    });
+    > { details: { map: { MapObject }, mapId: 'map-123..' }, ...DefaultEventProperties }
+
+    document.addEventListener('addedOpenStreetMapMarkers', e => {
+        console.log(e);
+    });
+    > { details: { map: { MapObject }, mapId: 'map-123..', geoJson: { GeoJSON } }, ...DefaultEventProperties }
 
 
 ## Leaflet Map Options

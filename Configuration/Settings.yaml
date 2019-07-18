@@ -16,10 +16,12 @@ WebExcess:
   OpenStreetMap:
     tilesUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     minZoom: 6
-    maxZoom: 20
+    maxZoom: 18
     style: ~ # ~, grayscale or dark
     ratio: '3:2'
     address: ~ # Talisker Distillery, Carbost, Scotland
     lat: ~ # 57.302387
     lon: ~ # -6.356159
+    paddingTopLeft: [100, 100]
+    paddingBottomRight: [100, 100]
     mapOptions: []

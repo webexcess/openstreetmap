@@ -37,6 +37,14 @@ prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Compone
     defaultLon = ${Configuration.setting('WebExcess.OpenStreetMap.lon')}
     lonRenderer = ${this.lon ? this.lon : (this.latLonRenderer ? this.latLonRenderer.lon : this.defaultLon)}
 
+    paddingTopLeft = null
+    defaultPaddingTopLeft = ${Json.stringify(Configuration.setting('WebExcess.OpenStreetMap.paddingTopLeft'))}
+    paddingTopLeftRenderer = ${this.paddingTopLeft ? this.paddingTopLeft : this.defaultPaddingTopLeft}
+
+    paddingBottomRight = null
+    defaultPaddingBottomRight = ${Json.stringify(Configuration.setting('WebExcess.OpenStreetMap.paddingBottomRight'))}
+    paddingBottomRightRenderer = ${this.paddingBottomRight ? this.paddingBottomRight : this.defaultPaddingBottomRight}
+
     tooltip = null
     tooltipRenderer = ${this.tooltip ? this.tooltip : null}
 
@@ -65,6 +73,8 @@ prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Compone
                     data-max-zoom = ${props.maxZoomRenderer}
                     data-lat = ${props.latRenderer}
                     data-lon = ${props.lonRenderer}
+                    data-padding-topleft = ${props.paddingTopLeftRenderer}
+                    data-padding-bottomright = ${props.paddingBottomRightRenderer}
                     data-tooltip = ${props.tooltipRenderer}
                     data-popup = ${props.popupRenderer}
                     data-json = ${props.jsonRenderer}
