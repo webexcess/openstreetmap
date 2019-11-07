@@ -25,3 +25,4 @@ WebExcess:
     paddingTopLeft: [100, 100]
     paddingBottomRight: [100, 100]
     mapOptions: []
+    mapHooks: []

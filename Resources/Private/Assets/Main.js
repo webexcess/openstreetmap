@@ -16,6 +16,10 @@ function OpenStreetMap() {
         scrollWheelZoom: false
     };
 
+    var mapHooks = {
+        addMarkersLayerHook: false
+    };
+
     if (!Array.from) {
         Array.from = (function () {
             var toStr = Object.prototype.toString;
@@ -120,7 +124,29 @@ function OpenStreetMap() {
                 markers[mapElement._container.attributes.id.value].push(marker);
                 return marker;
             }
-        }).addTo(mapElement);
+        });
+
+        if (mapHooks.addMarkersLayerHook) {
+            var addMarkersLayerHookResult;
+            try {
+                if (typeof(mapHooks.addMarkersLayerHook) === 'string') {
+                    addMarkersLayerHookResult = window[mapHooks.addMarkersLayerHook](geojsonLayer);
+                } else if (typeof(mapHooks.addMarkersLayerHook) === 'function') {
+                    addMarkersLayerHookResult = mapHooks.addMarkersLayerHook(geojsonLayer);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+
+            if (!addMarkersLayerHookResult) {
+                addMarkersLayerHookResult = geojsonLayer;
+            }
+
+            mapElement.addLayer(addMarkersLayerHookResult);
+        } else {
+            mapElement.addLayer(geojsonLayer);
+        }
+
         mapElement.fitBounds(geojsonLayer.getBounds(), {
             paddingTopLeft: paddingTopLeft,
             paddingBottomRight: paddingBottomRight
@@ -167,6 +193,14 @@ function OpenStreetMap() {
             mapSpecificOptions = {};
         }
         mapSpecificOptions = Object.assign({}, mapOptions, mapSpecificOptions);
+
+        var mapSpecificHooks = mapContainer.getAttribute('data-map-hooks');
+        if (mapSpecificHooks) {
+            mapSpecificHooks = JSON.parse(mapSpecificHooks);
+        } else {
+            mapSpecificHooks = {};
+        }
+        mapHooks = Object.assign({}, mapHooks, mapSpecificHooks);
 
         mapIds.push(mapId);
         maps[mapId] = new L.Map(mapId, mapSpecificOptions);

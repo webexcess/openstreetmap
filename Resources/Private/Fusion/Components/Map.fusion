@@ -26,6 +26,11 @@ prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Compone
     mapOptionsRenderer = ${Array.concat(this.defaultMapOptions, this.mapOptions)}
     mapOptionsRenderer.@process.jsonStringify = ${value ? Json.stringify(value) : null}
 
+    mapHooks = Neos.Fusion:RawArray
+    defaultMapHooks = ${Configuration.setting('WebExcess.OpenStreetMap.mapHooks')}
+    mapHooksRenderer = ${Array.concat(this.defaultMapHooks, this.mapHooks)}
+    mapHooksRenderer.@process.jsonStringify = ${value ? Json.stringify(value) : null}
+
     address = null
     latLonRenderer = ${this.address ? Geocode.latLonFromAddress(this.address) : null}
 
@@ -79,6 +84,7 @@ prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Compone
                     data-popup = ${props.popupRenderer}
                     data-json = ${props.jsonRenderer}
                     data-map-options = ${props.mapOptionsRenderer}
+                    data-map-hooks = ${props.mapHooksRenderer}
                 }
             }
         }
