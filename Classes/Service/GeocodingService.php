@@ -48,7 +48,7 @@ class GeocodingService
         $browser = new Browser();
         $browser->setRequestEngine(new CurlEngine());
         $response = $browser->request($url);
-        $jsonContent = $response->getContent();
+        $jsonContent = $response->getBody();
 
         if ($jsonContent) {
             $json = json_decode($jsonContent, true);
