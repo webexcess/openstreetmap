@@ -81,3 +81,16 @@
                 label: 'Grayscale'
               dark:
                 label: 'Dark'
+
+'WebExcess.OpenStreetMap:Map.MaxZoom':
+  abstract: true
+  properties:
+    maxZoom:
+      type: integer
+      ui:
+        label: 'Maximum Zoom'
+        help:
+          message: 'Initial zoom value. The larger the value, the further one can zoom in.'
+        reloadPageIfChanged: true
+        inspector:
+          group: 'map'
