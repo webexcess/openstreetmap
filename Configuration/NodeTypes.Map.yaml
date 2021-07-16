@@ -6,6 +6,7 @@
 #    'WebExcess.OpenStreetMap:Map.LatLon.Visible': true
 #    'WebExcess.OpenStreetMap:Map.LatLon.Editable': true
 #    'WebExcess.OpenStreetMap:Map.Style': true
+#    'WebExcess.OpenStreetMap:Map.MaxZoom': true
   ui:
     label: 'OpenStreetMap'
     icon: 'icon-map-marked-alt'
