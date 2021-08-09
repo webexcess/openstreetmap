@@ -81,3 +81,70 @@
                 label: 'Grayscale'
               dark:
                 label: 'Dark'
+
+'WebExcess.OpenStreetMap:Map.MaxZoom':
+  abstract: true
+  properties:
+    maxZoom:
+      type: integer
+      ui:
+        label: 'Maximum Zoom'
+        help:
+          message: 'Initial zoom value. The larger the value, the further one can zoom in.'
+        reloadPageIfChanged: true
+        inspector:
+          group: 'map'
+          editor: 'Neos.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            allowEmpty: true
+            # not all maps allow all zoom levels
+            values:
+              0:
+                label: '0 (1:500 million)'
+                disabled: true
+              1:
+                label: '1 (1:250 million)'
+                disabled: true
+              2:
+                label: '2 (1:150 million)'
+                disabled: true
+              3:
+                label: '3 (1:70 million)'
+                disabled: true
+              4:
+                label: '4 (1:35 million)'
+                disabled: true
+              5:
+                label: '5 (1:15 million)'
+                disabled: true
+              6:
+                label: '6 (1:10 million)'
+              7:
+                label: '7 (1:4 million)'
+              8:
+                label: '8 (1:2 million)'
+              9:
+                label: '9 (1:1 million)'
+              10:
+                label: '10 (1:500 thousand)'
+              11:
+                label: '11 (1:250 thousand)'
+              12:
+                label: '12 (1:150 thousand)'
+              13:
+                label: '13 (1:70 thousand)'
+              14:
+                label: '14 (1:35 thousand)'
+              15:
+                label: '15 (1:15 thousand)'
+              16:
+                label: '16 (1:8 thousand)'
+              17:
+                label: '17 (1:4 thousand)'
+              18:
+                label: '18 (1:2 thousand)'
+              19:
+                label: '19 (1:1 thousand)'
+              20:
+                label: '20 (1:5 hundred)'
+                disabled: true

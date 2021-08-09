@@ -39,6 +39,7 @@ It's best practice to include them in your custom builds and remove the default 
 | <pre># default</pre> | ![Editor Default](Documentation/editor-default.png?raw=true "Editor Default") |
 | <pre>'WebExcess.OpenStreetMap:Map':<br>  superTypes:<br>    'WebExcess.OpenStreetMap:Map.LatLon.Editable': true</pre> | ![Editor LatLon](Documentation/editor-latlon.png?raw=true "Editor LatLon") |
 | <pre>'WebExcess.OpenStreetMap:Map':<br>  superTypes:<br>    'WebExcess.OpenStreetMap:Map.Style': true</pre> | ![Editor Style](Documentation/editor-style.png?raw=true "Editor Style") |
+| <pre>'WebExcess.OpenStreetMap:Map':<br>  superTypes:<br>    'WebExcess.OpenStreetMap:Map.MaxZoom': true</pre> | ![Editor Maximum Zoom](Documentation/editor-maxzoom.png?raw=true "Editor Maximum Zoom") |
 
 
 ## Default Settings
