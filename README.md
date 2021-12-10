@@ -10,7 +10,7 @@ Easy and flexible [OpenStreetMap](https://www.openstreetmap.org/) Implementation
 composer require webexcess/openstreetmap
 ```
 
-Supported for [Neos](https://www.neos.io/) 3.x, 4.x and 5.x
+Built for [Neos](https://www.neos.io/)
 
 
 ## Implemented Styles
