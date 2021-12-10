@@ -132,6 +132,28 @@ or with an external source..
     > { details: { map: { MapObject }, mapId: 'map-123..', geoJson: { GeoJSON } }, ...DefaultEventProperties }
 
 
+## MarkerCluster Example
+
+Load the Leaflet plugin..
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.1.0/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.1.0/dist/MarkerCluster.Default.css" />
+    <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster.js"></script>
+
+Register a JS hook..
+
+    prototype(WebExcess.OpenStreetMap:Map.Component) {
+      mapHooks.addMarkersLayerHook = 'myAddMarkersLayerHook'
+    }
+
+Load the plugin with your hook..
+
+    window.myAddMarkersLayerHook = (layer) => {
+      const clusterMarkers = L.markerClusterGroup()
+      return clusterMarkers.addLayer(layer)
+    }
+
+
 ## Leaflet Map Options
 
 See [leafletjs.com](https://leafletjs.com/reference-1.3.4.html#map-option)
