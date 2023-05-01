@@ -67,7 +67,7 @@ prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Compone
         content = Neos.Fusion:Array {
             map = Neos.Fusion:Tag {
                 attributes {
-                    id = ${'map-' + node.identifier}
+                    id = ${'map-' + node.nodeAggregateId.value}
                     class = Neos.Fusion:RawArray {
                         map = 'webexcess-openstreetmap__map'
                         hidePaneInitially = 'hide-leaflet-pane'

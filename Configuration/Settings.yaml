@@ -12,6 +12,15 @@ Neos:
     defaultContext:
       'Geocode': 'WebExcess\OpenStreetMap\Eel\GeocodingHelper'
 
+  ContentRepositoryRegistry:
+    presets:
+      'default':
+        projections:
+          'Neos.ContentRepository:ContentGraph':
+            catchUpHooks:
+              'WebExcess.OpenStreetMap:AddressChanged':
+                factoryObjectName: WebExcess\OpenStreetMap\Projection\AddressChangedHookFactory
+
 WebExcess:
   OpenStreetMap:
     tilesUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

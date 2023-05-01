@@ -12,30 +12,6 @@ use Neos\Flow\Http\Client\CurlEngine;
  */
 class GeocodingService
 {
-
-    /**
-     * @param NodeInterface $node
-     * @param $propertyName
-     * @param $oldValue
-     * @param $value
-     * @throws \Neos\Flow\Http\Client\InfiniteRedirectionException
-     */
-    public function nodePropertyChanged(NodeInterface $node, $propertyName, $oldValue, $value)
-    {
-        if ($node->getNodeType()->isOfType('WebExcess.OpenStreetMap:Map') && $propertyName == 'address') {
-            $node->setProperty('lat', '');
-            $node->setProperty('lon', '');
-
-            if (!empty($value)) {
-                $latLon = $this->geocodeLatLonFromAddress($value);
-                if ($latLon) {
-                    $node->setProperty('lat', $latLon['lat']);
-                    $node->setProperty('lon', $latLon['lon']);
-                }
-            }
-        }
-    }
-
     /**
      * @param $address
      * @return array|bool
@@ -62,5 +38,4 @@ class GeocodingService
 
         return false;
     }
-
 }
