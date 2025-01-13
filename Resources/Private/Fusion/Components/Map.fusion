@@ -21,12 +21,12 @@ prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Compone
     ratioRenderer = ${this.ratio ? this.ratio : this.defaultRatio}
     ratioPaddingRenderer = ${(String.split(this.ratioRenderer, ':')[1]*1) / (String.split(this.ratioRenderer, ':')[0]*1) * 100}
 
-    mapOptions = Neos.Fusion:RawArray
+    mapOptions = Neos.Fusion:DataStructure
     defaultMapOptions = ${Configuration.setting('WebExcess.OpenStreetMap.mapOptions')}
     mapOptionsRenderer = ${Array.concat(this.defaultMapOptions, this.mapOptions)}
     mapOptionsRenderer.@process.jsonStringify = ${value ? Json.stringify(value) : null}
 
-    mapHooks = Neos.Fusion:RawArray
+    mapHooks = Neos.Fusion:DataStructure
     defaultMapHooks = ${Configuration.setting('WebExcess.OpenStreetMap.mapHooks')}
     mapHooksRenderer = ${Array.concat(this.defaultMapHooks, this.mapHooks)}
     mapHooksRenderer.@process.jsonStringify = ${value ? Json.stringify(value) : null}
@@ -64,11 +64,11 @@ prototype(WebExcess.OpenStreetMap:Map.Component) < prototype(Neos.Fusion:Compone
             class = 'webexcess-openstreetmap'
             style = ${'padding-top: ' + props.ratioPaddingRenderer + '%;'}
         }
-        content = Neos.Fusion:Array {
+        content = Neos.Fusion:Join {
             map = Neos.Fusion:Tag {
                 attributes {
-                    id = ${'map-' + node.identifier}
-                    class = Neos.Fusion:RawArray {
+                    id = ${'map-' + node.aggregateId}
+                    class = Neos.Fusion:DataStructure {
                         map = 'webexcess-openstreetmap__map'
                         hidePaneInitially = 'hide-leaflet-pane'
                         style = ${props.styleRenderer ? 'webexcess-openstreetmap__map--' + props.styleRenderer : false}

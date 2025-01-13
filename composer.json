@@ -4,7 +4,7 @@
     "description": "Easy and flexible OpenStreetMap Implementation as NodeType or Fusion Component",
     "license": "MIT",
     "require": {
-        "neos/neos": ">=3.0 <9.0 || dev-master"
+        "neos/neos": "^9.0 || dev-main"
     },
     "autoload": {
         "psr-4": {
