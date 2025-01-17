@@ -12,6 +12,13 @@ Neos:
     defaultContext:
       'Geocode': 'WebExcess\OpenStreetMap\Eel\GeocodingHelper'
 
+  ContentRepositoryRegistry:
+    presets:
+      'default':
+        commandHooks:
+          'WebExcessOpenStreetMapGeocodeAddressCommandHook':
+            factoryObjectName: WebExcess\OpenStreetMap\CommandHook\GeocodeAddressCommandHookFactory
+
 WebExcess:
   OpenStreetMap:
     tilesUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
