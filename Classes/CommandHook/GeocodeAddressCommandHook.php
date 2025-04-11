@@ -11,7 +11,7 @@ use Neos\ContentRepository\Core\Feature\NodeModification\Command\SetNodeProperti
 use Neos\ContentRepository\Core\NodeType\NodeTypeManager;
 use Neos\ContentRepository\Core\NodeType\NodeTypeName;
 use Neos\ContentRepository\Core\Projection\ContentGraph\ContentGraphReadModelInterface;
-use Neos\Neos\Domain\Service\NeosVisibilityConstraints;
+use Neos\Neos\Domain\SubtreeTagging\NeosVisibilityConstraints;
 use WebExcess\OpenStreetMap\Service\GeocodingService;
 
 class GeocodeAddressCommandHook implements CommandHookInterface
