@@ -4,12 +4,14 @@ namespace WebExcess\OpenStreetMap\CommandHook;
 
 use Neos\ContentRepository\Core\CommandHandler\CommandHookInterface;
 use Neos\ContentRepository\Core\CommandHandler\CommandInterface;
+use Neos\ContentRepository\Core\CommandHandler\Commands;
+use Neos\ContentRepository\Core\EventStore\PublishedEvents;
 use Neos\ContentRepository\Core\Feature\NodeCreation\Command\CreateNodeAggregateWithNode;
 use Neos\ContentRepository\Core\Feature\NodeModification\Command\SetNodeProperties;
 use Neos\ContentRepository\Core\NodeType\NodeTypeManager;
 use Neos\ContentRepository\Core\NodeType\NodeTypeName;
 use Neos\ContentRepository\Core\Projection\ContentGraph\ContentGraphReadModelInterface;
-use Neos\ContentRepository\Core\Projection\ContentGraph\VisibilityConstraints;
+use Neos\Neos\Domain\SubtreeTagging\NeosVisibilityConstraints;
 use WebExcess\OpenStreetMap\Service\GeocodingService;
 
 class GeocodeAddressCommandHook implements CommandHookInterface
@@ -33,10 +35,15 @@ class GeocodeAddressCommandHook implements CommandHookInterface
         };
     }
 
+    public function onAfterHandle(CommandInterface $command, PublishedEvents $events): Commands
+    {
+        return Commands::createEmpty();
+    }
+
     private function handleSetNodeProperties(SetNodeProperties $command): CommandInterface
     {
         $contentGraph = $this->contentGraphReadModel->getContentGraph($command->workspaceName);
-        $subgraph = $contentGraph->getSubgraph($command->originDimensionSpacePoint->toDimensionSpacePoint(), VisibilityConstraints::withoutRestrictions());
+        $subgraph = $contentGraph->getSubgraph($command->originDimensionSpacePoint->toDimensionSpacePoint(), NeosVisibilityConstraints::excludeRemoved());
         $node = $subgraph->findNodeById($command->nodeAggregateId);
         if ($node === null || !$this->nodeTypeMananger->getNodeType($node->nodeTypeName)->isOfType(NodeTypeName::fromString(self::NODETYPE_NAME))) {
             return $command;
